@@ -5,13 +5,16 @@ $pass = "";
 $db   = "bantul";
 
 $conn = mysqli_connect($host, $user, $pass, $db);
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
     $result = mysqli_query($conn, "SELECT * FROM industri WHERE id = $id");
     $data = mysqli_fetch_assoc($result);
 }
-diklik
+
 if (isset($_POST['update'])) {
     $id = $_POST['id'];
     $nama = mysqli_real_escape_string($conn, $_POST['nama']);
@@ -33,18 +36,17 @@ if (isset($_POST['update'])) {
     <meta charset="utf-8">
     <title>Edit Data Industri</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 30px; background: #f9f9f9; }
-        .form-container { width: 400px; background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 5px; margin: auto; }
-        .form-group { margin-bottom: 12px; }
-        label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 13px; }
-        input[type="text"] { width: 100%; padding: 8px; box-sizing: border-box; }
-        button { background-color: #2c3e50; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 3px; }
-        button:hover { background-color: #34495e; }
-        .back-btn { background-color: #95a5a6; margin-left: 10px; text-decoration: none; color: white; padding: 8px 15px; display: inline-block; border-radius: 3px; font-size: 13px; }
+        body { font-family: Arial, sans-serif; padding: 30px; background: #fff0f5; }
+        .container { width: 400px; background: #fff; padding: 20px; border: 1px solid #ffb6c1; border-radius: 5px; margin: auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #db7093; }
+        input[type="text"] { width: 100%; padding: 8px; box-sizing: border-box; font-size: 12px; border: 1px solid #ffb6c1; border-radius: 3px; }
+        .btn { background-color: #ff69b4; color: white; border: none; padding: 8px 15px; cursor: pointer; font-size: 12px; border-radius: 3px; }
+        .btn:hover { background-color: #ff1493; }
     </style>
 </head>
 <body>
-    <div class="form-container">
+    <div class="container">
         <h3>Edit Data Industri</h3>
         <form method="POST" action="">
             <input type="hidden" name="id" value="<?php echo $data['id']; ?>">
@@ -58,14 +60,14 @@ if (isset($_POST['update'])) {
             </div>
             <div class="form-group">
                 <label>Latitude:</label>
-                <input type="text" name="latitude" value="<?php echo $data['latitude']; ?>" required>
+                <input type="text" name="latitude" value="<?php echo htmlspecialchars($data['latitude']); ?>" required>
             </div>
             <div class="form-group">
                 <label>Longitude:</label>
-                <input type="text" name="longitude" value="<?php echo $data['longitude']; ?>" required>
+                <input type="text" name="longitude" value="<?php echo htmlspecialchars($data['longitude']); ?>" required>
             </div>
-            <button type="submit" name="update">Simpan Perubahan</button>
-            <a href="index.php" class="back-btn">Batal</a>
+            <button type="submit" name="update" class="btn">Update Data</button>
+            <a href="index.php" style="font-size: 12px; margin-left: 10px; color: #666; text-decoration: none;">Kembali</a>
         </form>
     </div>
 </body>
